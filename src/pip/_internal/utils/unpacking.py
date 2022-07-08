@@ -119,7 +119,7 @@ def unzip_file(filename: str, location: str, flatten: bool = True) -> None:
             fn = name
             if leading:
                 fn = split_leading_dir(name)[1]
-            fn = os.path.join(location, fn)
+            fn = location if fn == "" else os.path.join(location, os.path.normpath(fn))
             dir = os.path.dirname(fn)
             if not is_within_directory(location, fn):
                 message = (
@@ -177,7 +177,7 @@ def untar_file(filename: str, location: str) -> None:
             fn = member.name
             if leading:
                 fn = split_leading_dir(fn)[1]
-            path = os.path.join(location, fn)
+            path = location if fn == "" else os.path.join(location, os.path.normpath(fn))
             if not is_within_directory(location, path):
                 message = (
                     "The tar file ({}) has a file ({}) trying to install "
